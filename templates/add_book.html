@@ -1,0 +1,15 @@
+{% extends "base_layout.html" %}
+{% block body %}
+    <h2>Add new book</h2>
+    <hr></hr>
+    <form action="{{ url_for('add_book') }}" method="post">
+        <dl>
+            <dt>{{form.title.label}}:
+            <dd>{{form.title()}}
+            <br><br>
+            <dt>{{form.choose_authors.label}}:
+            <dd>{{form.choose_authors(size = "10")}}
+        </dl>
+        <input type="submit" value="Save">
+    </form>
+{% endblock %}

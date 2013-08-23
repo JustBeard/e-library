@@ -1,0 +1,44 @@
+{% extends "base_layout.html" %}
+{% block body %}
+    <form action="{{ url_for('index') }}" method="post" class="search_field">
+        {{form.search_by_title.label}}:{{form.search_by_title()}}
+        {{form.search_by_author.label}}:{{form.search_by_author()}}
+        <input type="submit" value="Search">
+    </form>
+    <div class="metanav">
+        {% if session.logged %}
+            <a href="{{url_for('add_book')}}"><em>(add book)</em></a> |
+            <a href="{{url_for('add_author')}}"><em>(add author)</em></a>
+        {% endif %}
+    </div>
+    <hr></hr>
+    <ul class="entries">
+    {% for book in books %}
+    <li>
+        <h4>
+            {{book.title}}
+            {% if session.logged %}
+            <a href="{{url_for('change_book', book_id=book.id)}}"><em>(edit)</em></a>
+            {% endif %}
+        </h4>
+        <span class="authors">
+        {% for author in book.authors_by %}
+            {% if session.logged %}
+                <a href="{{url_for('change_author', author_id=author.id)}}">
+            {% endif %}
+                    {{author.name}}
+            {% if session.logged %}
+                </a>
+            {% endif %}
+            {% if not loop.last %}
+                ,
+            {% endif %}
+        {% endfor %}
+        <span>
+    </li>
+    <hr></hr>
+  {% else %}
+    <li>Unbelievable.  No entries here so far
+  {% endfor %}
+  </ul>
+{% endblock %}
